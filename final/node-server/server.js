@@ -31,7 +31,7 @@ app.use(async (ctx) => {
     sql += "'" + album_year + "',";
     sql += "'" + genre + "',";
     sql += "'" + album_url + "//" + domain + "/" + path + "');"; //this will only work for a path with one segment. I am using tinyurl, which follows this scheme. Would like to make this better.
-    //result = await pool.query(sql);
+    result = await pool.query(sql);
     console.log(sql);
   }else if(id == 0){
     result = await pool.query('select * from albums');
