@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <title>Primeaux's Album Collection</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  </script>
+</head>
+
+<body>
+  <h1>Primeaux's Album Collection</h1>
+  <p>This is my page for documenting my Record collection!</p>
+
+  <!-- artist_name, album_name, year, genre, album_url -->
+  Artist name:<br>
+  <input type="text" id="artist_name" value=""><br> Album name:<br>
+  <input type="text" id="album_name" value=""><br> Album Year:<br>
+  <input type="number" id="album_year" value=""><br> Genre:
+  <br>
+  <input type="text" id="genre" value=""><br> Album Art URL:<br>
+  <input type="url" id="album_url" value="">
+  <br><br>
+  <button id="abutton">Submit</button>
+  <br><br>
+
+
+  <script language="javascript">
+    $.ajax({
+      url: "http://localhost:4001/albums/0",
+      method: 'GET',
+      dataType: 'json',
+      success: function(result) {
+        //console.log(result);
+        for (let i = 0; i < result.rows.length; i++) {
+          let newImg = "<img id=" + i + " src='" + result.rows[i].album_url + "' />";
+          document.body.innerHTML += newImg;
+          //console.log(result.rows[i].album_url);
+        }
+        for (let i = 0; i < result.rows.length; i++) {
+          let x = document.getElementById([i]);
+          x.addEventListener('click', function() {
+            alert("Artist: " + result.rows[i].artist_name +
+              "\n" + "Album: " + result.rows[i].album_name +
+              "\n" + "Year: " + result.rows[i].album_year +
+              "\n" + "Genre: " + result.rows[i].genre);
+          });
+          $("#abutton").click(function() {
+            window.location = ('http://localhost:4001/' + 'newalbum' + '/' +
+              $("#artist_name").val() + '/' + $("#album_name").val() + '/' +
+              $("#album_year").val() + '/' + $("#genre").val() + '/' +
+              $("#album_url").val() + '/');
+          })
+        }
+      },
+      error: function() {
+        console.log("Error");
+      }
+    });
+  </script>
+
+</body>
+
+</html>
